@@ -380,11 +380,10 @@ function createBuffer(N,M,xstr,ystr,xspace,yspace){
 };
 
 
-var acounter=1,bcounter=0,ccounter=1,Acolcounter=1;
+var acounter=1,bcounter=1,ccounter=1,Acolcounter=1;
 var axcord=50,bxcord=50,cxcord=50;
 var Aa=0,Ab=parseInt(d3.select("#m").property("value"));
 var Ba=parseInt(d3.select("#n").property("value"))*parseInt(d3.select("#m").property("value"));
-
 function highlight_buffer(data)
 {
     
@@ -435,13 +434,23 @@ function highlight_buffer(data)
     }
 
 
-    // //MATRIX B   
+    // //MATRIX B
     
+    // if(bcounter>(pols)||bcounter==1){Aa=rows*cols,Ab=2,acounter=1}
+    // else{Aa+=parseInt(cols);
+    //     Ab+=parseInt(cols);} (cols*(rows+pols))
+
+     
+    // console.log((parseInt(cols)*(parseInt(rows+pols))))
+    // console.log((rows*cols)+(cols*pols));
+    // console.log((cols*(rows+pols))-1);
+    
+
     update2
     .filter(function(d,i) {
-        if(i>=rows*cols & i<=cols*(rows+pols)  & d.y==100 & i%pols==bcounter) {return d}
+        if((i==Ba || i==Ba+4) & d.y==100) {return d}
 
-        // else if(i>=rows*cols & i<=cols*(rows+pols) & d.y==100 & i%3==bcounter & bcounter%2==0){return d}
+        else if((i==Ba || i==Ba+4) & d.y==100){return d}
     
     })
     .transition()
@@ -453,8 +462,9 @@ function highlight_buffer(data)
         .style("fill", "white")
         .duration(500);
     console.log(bcounter);
-    if(bcounter==pols-1){bcounter=0}
-    else{bcounter+=1} 
+    bcounter+=1;
+    if(bcounter>(pols)){Ba=rows*cols,bcounter=1}
+    else{Ba+=1} 
     
 
 
